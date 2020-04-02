@@ -9,12 +9,30 @@ This guide was written for anyone that would like to host an instance of the IB 
 - https://github.com/QuantConnect/Lean/blob/master/Brokerages/InteractiveBrokers/run-ib-controller.sh
 - https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
+## Create your server (GCP, AWS, whatever)
+I used GCP to create a Ubuntu 18.04 instance w/ 1.7GB RAM and 10GB hard drive.
+
+## Firewall
+Make sure the following ports are accessible from the outside network:
+- `5900`: `x11vnc` remote viewer
+- `4002`: default IB Gateway API for paper account
+- `4001`: IB Gateway API for live account
+
+On GCP you can allow ports by finding the Firewall Rules for your instance.
+1. Create a new rule
+1. Make sure you allow Ingress traffic
+1. For IP ranges use `0.0.0.0/0` to allow traffic from anywhere or you can be more specific
+1. Make sure the `tcp` box is checked and add the port you want to allow.
+1. Repeat for all the ports.
+
 ## SSH to your server
 ```shell
 # once you've logged in, proceed as `sudo` user
 sudo -i
 # we'll start in root's home directory
 cd ~
+# Do everything through a screen so you can close the window without losing everything
+screen
 ```
 This is not exactly best Unix practice, but it'll do for now while we get everything up and running.
 
@@ -29,8 +47,6 @@ apt install x11vnc
 ```
 - `xvfb` will allow IB Gateway to launch because without an x11 container, it crashes.
 - `x11vnc` is used to host/serve the simulated x11 GUI allowing you to interact with IB Gateway's user interface remotely.
-- [TightVNC](http://www.tightvnc.com/) is an `x11vnc` client you'll need to download to your development computer to remotely access the hosted `x11vnc` instance.
-- [tvnjviewer-2.8.3-bin-gnugpl.zip](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip).
 
 ## Setup the x11 screen simulator
 ```shell
@@ -39,7 +55,7 @@ Xvfb :1 -ac -screen 0 1024x768x24 &
 export DISPLAY=:1
 x11vnc -ncache 10 -ncache_cr -display :1 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
 ```
-- You'll want to configure your server's firewall using `ufw` or `iptables` to allow port `5900`
+- You'll want to configure your server's firewall to allow ports `5900`, `4002`, and `4001` as previously mentioned.
 
 ## Install IB Gateway
 ```shell
@@ -72,9 +88,11 @@ chmod a+x ./ibcontroller.paper/*.sh ./ibcontroller.paper/*/*.sh
 ```
 
 ## Configuration
-I'll provide you with my configuration files, but you'll need to modify them for your needs.
-#### `~/Jts/jts.ini`
-This is the configuration of the IB Gateway itself. You can use your local machine's `jts.ini` as a reference which can be found in the same location path.
+#### ~/Jts/jts.ini
+On your local machine, look for your `jts.ini` file, which can typically be found at `~/Jts/jts.ini` (or `C:\Jts\jts.ini`, for Windows).
+Copy the contents of the file to `~/JTS/jts.ini` on your remote server.
+
+Here's an example of what the contents should look like.
 ```ini
 [IBGateway]
 WriteDebug=false
@@ -109,7 +127,8 @@ Region=us
 ```
 
 #### `~/ibcontroller.paper/IBControllerGatewayStart.sh`
-ONLY modify the top part of the file as indicated.
+On your remote server, edit `~/ibcontroller.paper/IBControllerGatewayStart.sh` as indicated below.
+You should ONLY modify the top part of the file.
 ```shell
 TWS_MAJOR_VRSN=967
 IBC_INI=/root/ibcontroller.paper/IBController.ini
@@ -124,6 +143,10 @@ JAVA_PATH=
 
 #### `~/ibcontroller.paper/IBController.ini`
 This is the IBController configuration. More info can be found [here](https://github.com/ib-controller/ib-controller/blob/master/userguide.md).
+
+On your remote server, edit `~/ibcontroller.paper/IBController.ini`. This file can be completely cleared and replaced with the contents below. (Don't forget to include your IB username and password)
+
+Also note that `TradingMode` is currently set to `paper` but can be changed to `live`
 ```ini
 LogToConsole=no
 FIX=no
@@ -161,24 +184,28 @@ LogComponents=never
 We'll use the simulated x11 (`DISPLAY=:1`) we created with `xvfb` to start the IBController script.
 ```shell
 DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
+
+# This time when asked to run IB Gateway, say yes
+sh ibgateway-latest-standalone-linux-x64.sh -c
 ```
 
-## Firewall
-Make sure the following ports are accessible from the outside network:
-- `5900`: `x11vnc` remote viewer
-- `4002`: default IB Gateway API
-
 ## Validate and debug
-Use the `TightVNC` to make sure the IB Gateway is up and running.
+We use a remote desktop tool called `TightVNC` to see the remote server's screen and make sure IB Gateway is up and running.
+
+First download TightVNC to your local machine: 
+- [tvnjviewer-2.8.3-bin-gnugpl.zip](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip).
+- unzip tvnjiewer and launch the jar either using the shell command below or by opening with Java.
 ```shell
 # launch the TightVNC app
 java -jar tightvnc-jviewer.jar
 ```
+- When asked for the remote host, enter the external IP of your remote server
+(you can see this on the "VM Instances" page in your GCP console) followed by `:5900`.
 
-## Caveats
-I tried using `nginx` to proxy the websocket connection to port `4002` but was unsuccessful. You'll want to add any external IP's to the `Trusted IPs` list at the bottom of the IB Gateway's `API - Settings`.
-![config](http://i.imgur.com/ZhBMjiZ.png)
-The IBController should be automatically allowing external IPs, but I was not able to get that working in `v3.4.0`.
+After logging in to IB Gateway on the remote server, go into Settings and add your local machine's IP address as a Trusted IP.
+(You can find your IP by Googling "What's my IP")
+
+To connect to IB with `ib_insync`, simply replace the default host IP (`127.0.0.1`) with the external IP address of your instance.
 
 ## Trouble Shooting
 
