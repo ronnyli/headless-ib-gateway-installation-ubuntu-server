@@ -130,12 +130,12 @@ Region=us
 On your remote server, edit `~/ibcontroller.paper/IBControllerGatewayStart.sh` as indicated below.
 You should ONLY modify the top part of the file.
 ```shell
-TWS_MAJOR_VRSN=967
-IBC_INI=/root/ibcontroller.paper/IBController.ini
+TWS_MAJOR_VRSN=<YOUR TWS VERSION>
+IBC_INI=~/ibcontroller.paper/IBController.ini
 TRADING_MODE=
-IBC_PATH=/root/ibcontroller.paper
-TWS_PATH=/root/Jts
-LOG_PATH=/root/ibcontroller.paper/Logs
+IBC_PATH=~/ibcontroller.paper
+TWS_PATH=~/Jts
+LOG_PATH=~/ibcontroller.paper/Logs
 TWSUSERID=
 TWSPASSWORD=
 JAVA_PATH=
@@ -180,13 +180,12 @@ SuppressInfoMessages=yes
 LogComponents=never
 ```
 
+After modifying `IBController.ini` you should also copy it to `~/IBController/IBController.ini` because it looks like IBController checks that location too
+
 ## Start the IB Gateway
 We'll use the simulated x11 (`DISPLAY=:1`) we created with `xvfb` to start the IBController script.
 ```shell
 DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
-
-# This time when asked to run IB Gateway, say yes
-sh ibgateway-latest-standalone-linux-x64.sh -c
 ```
 
 ## Validate and debug
