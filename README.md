@@ -24,6 +24,7 @@ On GCP you can allow ports by finding the Firewall Rules for your instance.
 1. For IP ranges use `0.0.0.0/0` to allow traffic from anywhere or you can be more specific
 1. Make sure the `tcp` box is checked and add the port you want to allow.
 1. Repeat for all the ports.
+1. **TODO**: figure out the `gcloud` commands for everything above
 
 ## SSH to your server
 ```shell
@@ -167,7 +168,7 @@ ForceTwsApiPort=
 ReadOnlyLogin=no
 AcceptNonBrokerageAccountWarning=yes
 IbAutoClosedown=no
-ClosedownAt=Saturday 04:11
+ClosedownAt=
 AllowBlindTrading=yes
 DismissPasswordExpiryWarning=no
 DismissNSEComplianceNotice=yes
