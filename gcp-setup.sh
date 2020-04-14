@@ -19,6 +19,8 @@ echo DISPLAY=:1 >> /etc/environment
 source ~/.bashrc
 source ~/.profile
 
+echo 'export DISPLAY' >> /tmp/gcp-setup.log
+
 # in your root's home directory
 cd ~
 # download installation script
@@ -28,13 +30,38 @@ chmod a+x ibgateway-latest-standalone-linux-x64.sh
 # run it
 echo | sh ibgateway-latest-standalone-linux-x64.sh -c
 
+
+echo 'install IB Gateway' >> /tmp/gcp-setup.log
+
+
+# get the link to latest IBController from https://github.com/ib-controller/ib-controller/releases
+wget https://github.com/ib-controller/ib-controller/releases/download/3.4.0/IBController-3.4.0.zip
+unzip ./IBController-3.4.0.zip -d ./ibcontroller.paper
+# make the scripts executable
+chmod a+x ./ibcontroller.paper/*.sh ./ibcontroller.paper/*/*.sh
+
+
+echo 'install IBController' >> /tmp/gcp-setup.log
+
+
 # Copy configuration files
 mv $PWD_OUTPUT_USER/jts.ini $PWD/Jts/
 mv $PWD_OUTPUT_USER/IBController.ini $PWD/ibcontroller.paper
 mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh $PWD/ibcontroller.paper
 
+
+
+echo 'mv config files' >> /tmp/gcp-setup.log
+
+
 # Start IB Gateway and send to TightVNC
-# DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
+DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
+
+
+echo 'Run IBControllerGateway' >> /tmp/gcp-setup.log
+
+
+exit
 
 # # Install Python
 # apt install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
