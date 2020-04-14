@@ -14,11 +14,11 @@
 
 
 TWS_MAJOR_VRSN=978
-IBC_INI=$PWD/ibcontroller.paper/IBController.ini
+IBC_INI=/root/ibcontroller.paper/IBController.ini
 TRADING_MODE=
-IBC_PATH=$PWD/ibcontroller.paper
-TWS_PATH=$PWD/Jts
-LOG_PATH=$PWD/ibcontroller.paper/Logs
+IBC_PATH=/root/ibcontroller.paper
+TWS_PATH=/root/Jts
+LOG_PATH=/root/ibcontroller.paper/Logs
 TWSUSERID=
 TWSPASSWORD=
 JAVA_PATH=

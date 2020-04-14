@@ -6,10 +6,8 @@
 
 # Everything from the headless ib gateway README
 PWD_OUTPUT_USER=$(pwd)
-sudo su
-cd ~
-apt update
-apt install -y unzip xvfb x11vnc
+cd /root/
+apt update && apt install -y unzip xvfb x11vnc
 echo | Xvfb :1 -ac -screen 0 1024x768x24 &
 
 # Make sure DISPLAY=:1 is a permanent environment variable
@@ -45,10 +43,9 @@ echo 'install IBController' >> /tmp/gcp-setup.log
 
 
 # Copy configuration files
-mv $PWD_OUTPUT_USER/jts.ini $PWD/Jts/
-mv $PWD_OUTPUT_USER/IBController.ini $PWD/ibcontroller.paper
-mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh $PWD/ibcontroller.paper
-
+mv $PWD_OUTPUT_USER/jts.ini /root/Jts/
+mv $PWD_OUTPUT_USER/IBController.ini /root/ibcontroller.paper
+mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh /root/ibcontroller.paper
 
 
 echo 'mv config files' >> /tmp/gcp-setup.log
