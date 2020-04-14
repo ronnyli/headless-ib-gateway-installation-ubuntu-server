@@ -10,7 +10,6 @@ gcloud beta compute \
 --machine-type=g1-small \
 --subnet=default \
 --network-tier=PREMIUM \
---metadata-from-file=startup-script=gcp-setup.sh \
 --maintenance-policy=MIGRATE \
 --service-account=599937284915-compute@developer.gserviceaccount.com \
 --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
@@ -25,9 +24,15 @@ gcloud beta compute \
 --shielded-integrity-monitoring \
 --reservation-affinity=any
 
-echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini test3:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh test3:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini test3:~
+echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
+
+gcloud compute ssh \
+--zone northamerica-northeast1-a \
+ib-gateway \
+--command 'sudo sh gcp-setup.sh'
 
 gcloud compute \
 --project=leverheads firewall-rules create default-allow-http \

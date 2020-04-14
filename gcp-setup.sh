@@ -5,7 +5,8 @@
 # DO NOT RUN YET
 
 # Everything from the headless ib gateway README
-sudo -i
+PWD_OUTPUT_USER=$(pwd)
+sudo su
 cd ~
 apt update
 apt install -y unzip xvfb x11vnc
@@ -28,7 +29,9 @@ chmod a+x ibgateway-latest-standalone-linux-x64.sh
 echo | sh ibgateway-latest-standalone-linux-x64.sh -c
 
 # Copy configuration files
-
+mv $PWD_OUTPUT_USER/jts.ini $PWD/Jts/
+mv $PWD_OUTPUT_USER/IBController.ini $PWD/ibcontroller.paper
+mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh $PWD/ibcontroller.paper
 
 # Start IB Gateway and send to TightVNC
 # DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
