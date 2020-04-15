@@ -1,11 +1,12 @@
-HEADLESS_SERVER_REPO_FOUND=$(ls | grep headless-ib-gateway-installation-ubuntu-server | wc -l)
+HEADLESS_SERVER_REPO_FOUND=$(ls ~ | grep headless-ib-gateway-installation-ubuntu-server | wc -l)
 if [ $HEADLESS_SERVER_REPO_FOUND -eq 1 ]
 then
-    cd headless-ib-gateway-installation-ubuntu-server
+    cd ~/headless-ib-gateway-installation-ubuntu-server
     git pull
 else
+    cd ~
     git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
-    cd headless-ib-gateway-installation-ubuntu-server
+    cd ~/headless-ib-gateway-installation-ubuntu-server
 fi
 # EDIT IBController.ini with your username/password
 
