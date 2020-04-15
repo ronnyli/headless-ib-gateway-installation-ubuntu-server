@@ -22,7 +22,8 @@ cd headless-ib-gateway-installation-ubuntu-server
 ```
 4. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
 	- `sh gcloud_commands.sh`
-1. While the gcloud_commands script is running, download [TightVNC Viewer](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip). This will be how you interact with your IB Gateway server.
+	- The script is done when you see: `Done! You can now use TightVNC to connect to your IB Gateway server`
+1. While the gcloud_commands script is running, download [TightVNC Viewer](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip) on your personal computer. This will be how you interact with your IB Gateway server.
 1. Unzip tvnjiewer and launch the `tightvnc-jviewer` Jar file either using the shell command below or by opening with Java
 	- `java -jar tightvnc-jviewer.jar`
 	- Alternatively, open the file with java (you may need to install Java, which I think you can find [here](https://java.com/en/download/help/download_options.xml)):
