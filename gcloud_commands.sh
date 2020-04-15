@@ -1,8 +1,23 @@
-git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
-cd headless-ib-gateway-installation-ubuntu-server
+HEADLESS_SERVER_REPO_FOUND=$(ls | grep headless-ib-gateway-installation-ubuntu-server | wc -l)
+if [ $HEADLESS_SERVER_REPO_FOUND -eq 1 ]
+then
+    cd headless-ib-gateway-installation-ubuntu-server
+    git pull
+else
+    git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
+    cd headless-ib-gateway-installation-ubuntu-server
+fi
 # EDIT IBController.ini with your username/password
 
-gcloud create project leverheads
+LEVERHEADS_PROJECT_FOUND=$(gcloud projects list --filter leverheads | wc -l)
+if [ $LEVERHEADS_PROJECT_FOUND -gt 1 ]
+then
+    echo 'leverheads project already exists. Skipping...'
+else
+    echo 'Creating leverheads project...'
+    gcloud projects create leverheads
+    echo 'leverheads project created'
+fi
 
 gcloud beta compute \
 --project=leverheads instances create ib-gateway \
@@ -35,6 +50,8 @@ gcloud compute ssh \
 --zone northamerica-northeast1-a \
 ib-gateway \
 --command 'sudo sh gcp-setup.sh'
+
+echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
 
 gcloud compute \
 --project=leverheads firewall-rules create ingress-4001 \
