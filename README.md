@@ -35,3 +35,6 @@ cd headless-ib-gateway-installation-ubuntu-server
 	1. Copy the External IP address ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
 	1. The Remote Host value is `<PASTE EXTERNAL IP ADDRESS>::5900`
 		- ![TightVNC Remote Host](images/tutorial/tightvnc_remote_host.png)
+1. You should see a log-in window for Interactive Brokers!
+
+![IB Gateway Log In](images/tutorial/interactive_broker_login.png)

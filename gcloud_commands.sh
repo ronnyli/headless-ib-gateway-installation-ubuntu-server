@@ -42,18 +42,6 @@ gcloud beta compute \
 
 sleep 1m
 
-echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
-
-gcloud compute ssh \
---zone northamerica-northeast1-a \
-ib-gateway \
---command 'sudo sh gcp-setup.sh'
-
-echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
-
 gcloud compute \
 --project=leverheads firewall-rules create ingress-4001 \
 --direction=INGRESS \
@@ -80,3 +68,13 @@ gcloud compute \
 --action=ALLOW \
 --rules=tcp:5900 \
 --source-ranges=0.0.0.0/0
+
+echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
+
+gcloud compute ssh \
+--zone northamerica-northeast1-a \
+ib-gateway \
+--command 'sudo sh gcp-setup.sh'

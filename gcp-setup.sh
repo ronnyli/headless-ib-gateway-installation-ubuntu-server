@@ -40,3 +40,5 @@ mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh /root/ibcontroller.paper
 cp -r /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
 chmod a+x /root/ibcontroller.paper/*.sh /root/ibcontroller.paper/*/*.sh
 DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
+
+echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
