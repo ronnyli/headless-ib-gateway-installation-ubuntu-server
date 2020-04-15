@@ -19,8 +19,6 @@ source ~/.profile
 
 echo 'export DISPLAY' >> /tmp/gcp-setup.log
 
-# in your root's home directory
-cd ~
 # download installation script
 wget https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
 # make it executable
