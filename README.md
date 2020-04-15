@@ -14,7 +14,7 @@ This guide was written for anyone that would like to host an instance of the IB 
 Let me know if there's any way to improve these instructions
 1. Create a [GCP account](https://cloud.google.com/)
 1. Open the Cloud Shell (top-right corner of the screen)
-![Cloud Shell](images/tutorial/activate_cloud_shell.png)
+	- ![Cloud Shell](images/tutorial/activate_cloud_shell.png)
 1. Download some necessary files by copy-pasting the below commands into the terminal
 ```
 git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
