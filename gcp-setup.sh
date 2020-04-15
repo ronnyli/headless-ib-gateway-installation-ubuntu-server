@@ -50,7 +50,7 @@ echo 'mv config files' >> /tmp/gcp-setup.log
 
 
 # Start IB Gateway and send to TightVNC
-DISPLAY=:1 ~/ibcontroller.paper/IBControllerGatewayStart.sh
+DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
 
 
 echo 'Run IBControllerGateway' >> /tmp/gcp-setup.log
