@@ -24,6 +24,8 @@ gcloud beta compute \
 --shielded-integrity-monitoring \
 --reservation-affinity=any
 
+sleep 1m
+
 echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
@@ -35,22 +37,28 @@ ib-gateway \
 --command 'sudo sh gcp-setup.sh'
 
 gcloud compute \
---project=leverheads firewall-rules create default-allow-http \
+--project=leverheads firewall-rules create ingress-4001 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \
 --action=ALLOW \
---rules=tcp:80 \
---source-ranges=0.0.0.0/0 \
---target-tags=http-server
-
+--rules=tcp:4001 \
+--source-ranges=0.0.0.0/0
 
 gcloud compute \
---project=leverheads firewall-rules create default-allow-https \
+--project=leverheads firewall-rules create ingress-4002 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \
 --action=ALLOW \
---rules=tcp:443 \
---source-ranges=0.0.0.0/0 \
---target-tags=https-server
+--rules=tcp:4002 \
+--source-ranges=0.0.0.0/0
+
+gcloud compute \
+--project=leverheads firewall-rules create ingress-5900 \
+--direction=INGRESS \
+--priority=1000 \
+--network=default \
+--action=ALLOW \
+--rules=tcp:5900 \
+--source-ranges=0.0.0.0/0

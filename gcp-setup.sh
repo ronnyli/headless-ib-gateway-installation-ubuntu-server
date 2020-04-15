@@ -19,6 +19,10 @@ source ~/.profile
 
 echo 'export DISPLAY' >> /tmp/gcp-setup.log
 
+x11vnc -ncache 10 -ncache_cr -display :1 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
+
+echo 'run x11vnc' >> /tmp/gcp-setup.log
+
 # download installation script
 wget https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
 # make it executable
@@ -48,13 +52,15 @@ echo 'mv config files' >> /tmp/gcp-setup.log
 
 
 # Start IB Gateway and send to TightVNC
-cp /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
+cp -r /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
 chmod a+x /root/ibcontroller.paper/*.sh /root/ibcontroller.paper/*/*.sh
 DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
 
 
 echo 'Run IBControllerGateway' >> /tmp/gcp-setup.log
 
+
+exit
 # # Install Python
 # apt install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
 # wget https://bootstrap.pypa.io/get-pip.py
