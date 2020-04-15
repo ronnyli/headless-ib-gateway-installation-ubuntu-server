@@ -33,8 +33,6 @@ echo 'install IB Gateway' >> /tmp/gcp-setup.log
 # get the link to latest IBController from https://github.com/ib-controller/ib-controller/releases
 wget https://github.com/ib-controller/ib-controller/releases/download/3.4.0/IBController-3.4.0.zip
 unzip ./IBController-3.4.0.zip -d ./ibcontroller.paper
-# make the scripts executable
-chmod a+x ./ibcontroller.paper/*.sh ./ibcontroller.paper/*/*.sh
 
 
 echo 'install IBController' >> /tmp/gcp-setup.log
@@ -50,13 +48,12 @@ echo 'mv config files' >> /tmp/gcp-setup.log
 
 
 # Start IB Gateway and send to TightVNC
+cp /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
+chmod a+x /root/ibcontroller.paper/*.sh /root/ibcontroller.paper/*/*.sh
 DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
 
 
 echo 'Run IBControllerGateway' >> /tmp/gcp-setup.log
-
-
-exit
 
 # # Install Python
 # apt install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
