@@ -11,7 +11,7 @@ This guide was written for anyone that would like to host an instance of the IB 
 - https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
 ## Instructions
-Let me know if there's any way to improve these instructions
+*Let me know if there's any way to improve these instructions*
 1. Create a [GCP account](https://cloud.google.com/)
 1. Open the Cloud Shell (top-right corner of the screen)
 	- ![Cloud Shell](images/tutorial/activate_cloud_shell.png)
@@ -29,3 +29,9 @@ cd headless-ib-gateway-installation-ubuntu-server
 
 ![Open with Java](images/tutorial/tightvnc_jviewer_open_with.png)
 ![Open with Java](images/tutorial/tightvnc_jviewer_open_with_java.png)
+
+7. When asked to fill out the "Remote Host" field, use the External IP address that you can see next to the `ib-gateway` instance in GCP
+	1. Go to the [GCP Instances](https://console.cloud.google.com/compute/instances) page
+	1. Copy the External IP address ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
+	1. The Remote Host value is `<PASTE EXTERNAL IP ADDRESS>::5900`
+		- ![TightVNC Remote Host](images/tutorial/tightvnc_remote_host.png)

@@ -18,11 +18,7 @@ echo DISPLAY=:1 >> /etc/environment
 source ~/.bashrc
 source ~/.profile
 
-echo 'export DISPLAY' >> /tmp/gcp-setup.log
-
 x11vnc -ncache 10 -ncache_cr -display :1 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
-
-echo 'run x11vnc' >> /tmp/gcp-setup.log
 
 # download installation script
 wget https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
@@ -31,31 +27,16 @@ chmod a+x ibgateway-latest-standalone-linux-x64.sh
 # run it
 echo | sh ibgateway-latest-standalone-linux-x64.sh -c
 
-
-echo 'install IB Gateway' >> /tmp/gcp-setup.log
-
-
 # get the link to latest IBController from https://github.com/ib-controller/ib-controller/releases
 wget https://github.com/ib-controller/ib-controller/releases/download/3.4.0/IBController-3.4.0.zip
 unzip ./IBController-3.4.0.zip -d ./ibcontroller.paper
-
-
-echo 'install IBController' >> /tmp/gcp-setup.log
-
 
 # Copy configuration files
 mv $PWD_OUTPUT_USER/jts.ini /root/Jts/
 mv $PWD_OUTPUT_USER/IBController.ini /root/ibcontroller.paper
 mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh /root/ibcontroller.paper
 
-
-echo 'mv config files' >> /tmp/gcp-setup.log
-
-
 # Start IB Gateway and send to TightVNC
 cp -r /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
 chmod a+x /root/ibcontroller.paper/*.sh /root/ibcontroller.paper/*/*.sh
 DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
-
-
-echo 'Run IBControllerGateway' >> /tmp/gcp-setup.log
