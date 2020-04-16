@@ -73,6 +73,8 @@ echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a leverhead_crontab ib-gateway:~
+
 
 gcloud compute ssh \
 --zone northamerica-northeast1-a \
