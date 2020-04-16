@@ -41,4 +41,7 @@ mv $PWD_OUTPUT_USER/gatewaystart.sh /opt/ibc/
 chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh
 DISPLAY=:10 /opt/ibc/gatewaystart.sh
 
+# Restart IB Gateway if it shuts off
+crontab /opt/ibc/crontab.txt
+
 echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
