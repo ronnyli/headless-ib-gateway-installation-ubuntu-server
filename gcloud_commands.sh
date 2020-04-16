@@ -69,6 +69,7 @@ gcloud compute \
 --rules=tcp:5900 \
 --source-ranges=0.0.0.0/0
 
+echo | gcloud compute scp --zone northamerica-northeast1-a ibg.xml ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~

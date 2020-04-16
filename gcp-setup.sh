@@ -37,8 +37,37 @@ mkdir /root/ibc
 mv $PWD_OUTPUT_USER/config.ini /root/ibc
 mv $PWD_OUTPUT_USER/gatewaystart.sh /opt/ibc/
 
-# Start IB Gateway and send to TightVNC
 chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh
+
+# Run IB Gateway (then kill it) in order to create user settings directory
+TWS_MAJOR_VRSN=978
+IBC_INI=/root/ibc/config.ini
+gw_flag=-g
+IBC_PATH=/opt/ibc
+TWS_PATH=/root/Jts
+TWS_SETTINGS_PATH=
+LOG_PATH=/root/ibc/logs
+
+timeout --preserve-status -k 60s 60s \
+  xvfb-run -a "${IBC_PATH}/scripts/ibcstart.sh" \
+    "${TWS_MAJOR_VRSN}" ${gw_flag} \
+    "--tws-path=${TWS_PATH}" \
+    "--tws-settings-path=${TWS_SETTINGS_PATH}" \
+    "--ibc-path=${IBC_PATH}" \
+    "--ibc-ini=${IBC_INI}" &
+XVFB_PID=$!
+
+sleep 1
+kill $XVFB_PID
+
+# Find the user settings directory (this is unique to each user)
+JTS_USER_DIR=$(ls -d $TWS_PATH/*/ | egrep -v 'ibgateway|jars')
+echo 'JTS_USER_DIR='
+echo $JTS_USER_DIR
+# Add our custom settings
+mv $PWD_OUTPUT_USER/ibg.xml $JTS_USER_DIR
+
+# Start IB Gateway and send to TightVNC
 DISPLAY=:10 /opt/ibc/gatewaystart.sh
 
 # Restart IB Gateway if it shuts off
