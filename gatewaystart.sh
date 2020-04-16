@@ -4,6 +4,11 @@
 #                                                                             +
 #   This command file starts the Interactive Brokers' Gateway.                +
 #                                                                             +
+#   If you run it without any arguments it will display a new window showing  +
+#   useful information and then start the Gateway. If you supply -inline as   +
+#   the first argument, the information will be displayed in the current      +
+#   terminal window.                                                          +
+#                                                                             +
 #   The following lines are the only ones you may need to change, and you     +
 #   probably only need to change the first one.                               +
 #                                                                             +
@@ -14,14 +19,18 @@
 
 
 TWS_MAJOR_VRSN=978
-IBC_INI=/root/ibcontroller.paper/IBController.ini
+IBC_INI=/root/ibc/config.ini
 TRADING_MODE=
-IBC_PATH=/root/ibcontroller.paper
+IBC_PATH=/opt/ibc
 TWS_PATH=/root/Jts
-LOG_PATH=/root/ibcontroller.paper/Logs
+TWS_SETTINGS_PATH=
+LOG_PATH=/root/ibc/logs
 TWSUSERID=
 TWSPASSWORD=
+FIXUSERID=
+FIXPASSWORD=
 JAVA_PATH=
+HIDE=
 
 
 #              PLEASE DON'T CHANGE ANYTHING BELOW THIS LINE !!
@@ -45,7 +54,7 @@ JAVA_PATH=
 
 #   IBC_INI
 #
-#     This is the location and filename of the IBController configuration file.
+#     This is the location and filename of the IBC configuration file.
 #     This file should be in a folder in your personal filestore, so that
 #     other users of your computer can't access it. This folder and its 
 #     contents should also be encrypted so that even users with administrator 
@@ -63,9 +72,12 @@ JAVA_PATH=
 #     versions of TWS, setting this has no effect. If no value is specified 
 #     here, the value is taken from the TradingMode setting in the 
 #     configuration file. If no value is specified there either, the value 
-#     'live' is assumed.#   IBC_PATH
+#     'live' is assumed.
+
+
+#   IBC_PATH
 #
-#     The folder containing the IBController files. 
+#     The folder containing the IBC files. 
 
 
 #   TWS_PATH
@@ -73,8 +85,16 @@ JAVA_PATH=
 #     The folder where Gateway is installed. The Gateway installer always 
 #     installs to ~/Jts. Note that even if you have installed from a Gateway 
 #     download rather than a TWS download, you should still use this default 
-#     setting. It is possibe to move the TWS installation to a different 
+#     setting. It is possible to move the TWS installation to a different 
 #     folder, but there are virtually no good reasons for doing so.
+
+
+#   TWS_SETTINGS_PATH
+#
+#     The directory where TWS is to store its settings.  This setting is ignored
+#     if the IbDir setting in the configuration file is specified. If no value 
+#     is specified in either place, the settings are stored in the TWS_PATH 
+#     directory.
 
 
 #   LOG_PATH
@@ -82,7 +102,7 @@ JAVA_PATH=
 #     Specifies the folder where diagnostic information is to be logged while 
 #     this command file is running. This information is very valuable when 
 #     troubleshooting problems, so it is advisable to always have this set to
-#     a valid location, especially when setting up IBController. You must
+#     a valid location, especially when setting up IBC. You must
 #     have write access to the specified folder.
 #
 #     Once everything runs properly, you can prevent further logging by 
@@ -94,20 +114,20 @@ JAVA_PATH=
 #   TWSUSERID
 #   TWSPASSWORD
 #
-#     If your TWS user id and password are not included in your IBController 
-#     configuration file, you can set them here (do not encrypt the password). 
-#     However you are strongly advised not to set them here because this file 
-#     is not normally in a protected location.
+#     If your TWS user id and password are not included in your IBC 
+#     configuration file, you can set them here. However you are strongly 
+#     advised not to set them here because this file is not normally in a 
+#     protected location.
 
 
 #   FIXUSERID
 #   FIXPASSWORD
 #
 #     If you are running the FIX Gateway (for which you must set FIX=yes in 
-#     your IBController configuration file), and the FIX user id and password 
-#     are not included in the configuration file, you can set them here (do 
-#     not encrypt the password). However you are strongly advised not to set 
-#     them here because this file is not normally in a protected location.
+#     your IBC configuration file), and the FIX user id and password 
+#     are not included in the configuration file, you can set them here. 
+#     However you are strongly advised not to set them here because this file
+#     is not normally in a protected location.
 
 
 #   JAVA_PATH
@@ -115,8 +135,8 @@ JAVA_PATH=
 #     IB's installer for TWS/Gateway includes a hidden version of Java which 
 #     IB have used to develop and test that particular version. This means that
 #     it is not necessary to separately install Java. If there is a separate
-#     Java installation, that does not matter: it won't be used by IBController 
-#     or TWS/Gateway unless you set the path to it here. You should not do this 
+#     Java installation, that does not matter: it won't be used by IBC or 
+#     TWS/Gateway unless you set the path to it here. You should not do this 
 #     without a very good reason.
 
 
@@ -127,18 +147,25 @@ JAVA_PATH=
 #     If not set, or set to any other value, the window will be displayed. 
 #     Values are not case-sensitive so for example yEs and yes are interpeted 
 #     as YES. (Note that when the -inline argument is supplied, this setting 
-#     has no effect.)#   End of Notes:
+#     has no effect.)
+
+
+#   End of Notes:
 #==============================================================================
 
+if [[ -n $(/usr/bin/pgrep -f "java.*${IBC_INI}") ]]; then
+	>&2 echo -e "Error: process is already running"
+	>&2 exit 1
+fi
+
 APP=GATEWAY
-TWS_CONFIG_PATH="$TWS_PATH"
 
 export TWS_MAJOR_VRSN
 export IBC_INI
 export TRADING_MODE
 export IBC_PATH
 export TWS_PATH
-export TWS_CONFIG_PATH
+export TWS_SETTINGS_PATH
 export LOG_PATH
 export TWSUSERID
 export TWSPASSWORD
@@ -149,12 +176,12 @@ export APP
 
 hide="$(echo ${HIDE} | tr '[:lower:]' '[:upper:]')"
 if [[ "$hide" = "YES" || "$hide" = "TRUE" ]]; then 
-        iconic=-iconic
+	iconic=-iconic
 fi
 
 if [[ "$1" == "-inline" ]]; then
-    exec "${IBC_PATH}/Scripts/DisplayBannerAndLaunch.sh"
+    exec "${IBC_PATH}/scripts/displaybannerandlaunch.sh"
 else
-    title="IBController ($APP $TWS_MAJOR_VRSN)"
-    xterm $iconic -T "$title" -e "${IBC_PATH}/Scripts/DisplayBannerAndLaunch.sh" &
+    title="IBC ($APP $TWS_MAJOR_VRSN)"
+    xterm $iconic -T "$title" -e "${IBC_PATH}/scripts/displaybannerandlaunch.sh" &
 fi

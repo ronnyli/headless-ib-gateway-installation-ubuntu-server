@@ -8,7 +8,7 @@ else
     git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
     cd ~/headless-ib-gateway-installation-ubuntu-server
 fi
-# EDIT IBController.ini with your username/password
+# EDIT config.ini with your username/password (search for <YOUR_INPUT_HERE>)
 
 LEVERHEADS_PROJECT_FOUND=$(gcloud projects list --filter leverheads | wc -l)
 if [ $LEVERHEADS_PROJECT_FOUND -gt 1 ]
@@ -70,10 +70,9 @@ gcloud compute \
 --source-ranges=0.0.0.0/0
 
 echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBControllerGatewayStart.sh ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a IBController.ini ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a leverhead_crontab ib-gateway:~
 
 
 gcloud compute ssh \
