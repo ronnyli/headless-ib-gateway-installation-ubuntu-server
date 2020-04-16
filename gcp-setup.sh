@@ -27,18 +27,18 @@ chmod a+x ibgateway-latest-standalone-linux-x64.sh
 # run it
 echo | sh ibgateway-latest-standalone-linux-x64.sh -c
 
-# get the link to latest IBController from https://github.com/ib-controller/ib-controller/releases
-wget https://github.com/ib-controller/ib-controller/releases/download/3.4.0/IBController-3.4.0.zip
-unzip ./IBController-3.4.0.zip -d ./ibcontroller.paper
+# get the link to latest IBC from https://github.com/IbcAlpha/IBC/releases
+wget https://github.com/IbcAlpha/IBC/releases/download/3.8.2/IBCLinux-3.8.2.zip
+unzip ./IBCLinux-3.8.2.zip -d /opt/ibc
 
 # Copy configuration files
 mv $PWD_OUTPUT_USER/jts.ini /root/Jts/
-mv $PWD_OUTPUT_USER/IBController.ini /root/ibcontroller.paper
-mv $PWD_OUTPUT_USER/IBControllerGatewayStart.sh /root/ibcontroller.paper
+mkdir /root/ibc
+mv $PWD_OUTPUT_USER/config.ini /root/ibc
+mv $PWD_OUTPUT_USER/gatewaystart.sh /opt/ibc/
 
 # Start IB Gateway and send to TightVNC
-cp -r /root/ibcontroller.paper /root/IBController  # seems like IBControllerGateway checks here too
-chmod a+x /root/ibcontroller.paper/*.sh /root/ibcontroller.paper/*/*.sh
-DISPLAY=:1 /root/ibcontroller.paper/IBControllerGatewayStart.sh
+chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh
+DISPLAY=:1 /opt/ibc/gatewaystart.sh
 
 echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
