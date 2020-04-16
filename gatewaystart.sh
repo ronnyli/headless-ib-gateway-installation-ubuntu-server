@@ -19,12 +19,12 @@
 
 
 TWS_MAJOR_VRSN=978
-IBC_INI=~/ibc/config.ini
+IBC_INI=/root/ibc/config.ini
 TRADING_MODE=
 IBC_PATH=/opt/ibc
-TWS_PATH=~/Jts
+TWS_PATH=/root/Jts
 TWS_SETTINGS_PATH=
-LOG_PATH=~/ibc/logs
+LOG_PATH=/root/ibc/logs
 TWSUSERID=
 TWSPASSWORD=
 FIXUSERID=
