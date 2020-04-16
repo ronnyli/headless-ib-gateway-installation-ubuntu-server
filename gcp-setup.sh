@@ -57,7 +57,7 @@ timeout --preserve-status -k 60s 60s \
     "--ibc-ini=${IBC_INI}" &
 XVFB_PID=$!
 
-sleep 1
+sleep 1m
 kill $XVFB_PID
 
 # Find the user settings directory (this is unique to each user)
