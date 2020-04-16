@@ -9,16 +9,16 @@
 PWD_OUTPUT_USER=$(pwd)
 cd /root/
 apt update && apt install -y unzip xvfb x11vnc
-echo | Xvfb :1 -ac -screen 0 1024x768x24 &
+echo | Xvfb :10 -ac -screen 0 1024x768x24 &
 
-# Make sure DISPLAY=:1 is a permanent environment variable
-echo DISPLAY=:1 >> ~/.bashrc
-echo DISPLAY=:1 >> ~/.profile 
-echo DISPLAY=:1 >> /etc/environment
+# Make sure DISPLAY=:10 is a permanent environment variable
+echo DISPLAY=:10 >> ~/.bashrc
+echo DISPLAY=:10 >> ~/.profile
+echo DISPLAY=:10 >> /etc/environment
 source ~/.bashrc
 source ~/.profile
 
-x11vnc -ncache 10 -ncache_cr -display :1 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
+x11vnc -ncache 10 -ncache_cr -display :10 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
 
 # download installation script
 wget https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
@@ -39,6 +39,6 @@ mv $PWD_OUTPUT_USER/gatewaystart.sh /opt/ibc/
 
 # Start IB Gateway and send to TightVNC
 chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh
-DISPLAY=:1 /opt/ibc/gatewaystart.sh
+DISPLAY=:10 /opt/ibc/gatewaystart.sh
 
 echo 'Done! You can now use TightVNC to connect to your IB Gateway server'
