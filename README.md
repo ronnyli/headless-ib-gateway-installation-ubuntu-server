@@ -10,7 +10,7 @@ This guide was written for anyone that would like to host an instance of the IB 
 - https://github.com/QuantConnect/Lean/blob/master/Brokerages/InteractiveBrokers/run-ib-controller.sh
 - https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
-## Instructions
+## Set up GCP
 *Let me know if there's any way to improve these instructions*
 1. Create a [GCP account](https://cloud.google.com/)
 1. Open the Cloud Shell (top-right corner of the screen)
@@ -39,3 +39,6 @@ cd headless-ib-gateway-installation-ubuntu-server
 1. You should see a log-in window for Interactive Brokers!
 
 ![IB Gateway Log In](images/tutorial/interactive_broker_login.png)
+
+## Create an Interactive Brokers Account
+*Instructions TBD*
