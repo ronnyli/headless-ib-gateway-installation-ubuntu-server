@@ -15,19 +15,19 @@ if [ $LEVERHEADS_PROJECT_FOUND -gt 1 ]
 then
     echo 'leverheads project already exists. Skipping...'
 else
-    echo 'Creating leverheads project...'
-    gcloud projects create leverheads
-    echo 'leverheads project created'
+    echo 'ERROR: Need to create a leverheads project before continuing'
+    echo 'see: https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server for instructions'
+    exit 1
 fi
+LEVERHEADS_PROJECT_ID=$(gcloud projects list --filter leverheads | tail -n 1 | cut -d ' ' -f1)
 
 gcloud beta compute \
---project=leverheads instances create ib-gateway \
+--project=$LEVERHEADS_PROJECT_ID instances create ib-gateway \
 --zone=northamerica-northeast1-a \
 --machine-type=g1-small \
 --subnet=default \
 --network-tier=PREMIUM \
 --maintenance-policy=MIGRATE \
---service-account=599937284915-compute@developer.gserviceaccount.com \
 --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
 --tags=http-server,https-server \
 --image=ubuntu-1804-bionic-v20200414 \
@@ -43,7 +43,7 @@ gcloud beta compute \
 sleep 1m
 
 gcloud compute \
---project=leverheads firewall-rules create ingress-4001 \
+--project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4001 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \
@@ -52,7 +52,7 @@ gcloud compute \
 --source-ranges=0.0.0.0/0
 
 gcloud compute \
---project=leverheads firewall-rules create ingress-4002 \
+--project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4002 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \
@@ -61,7 +61,7 @@ gcloud compute \
 --source-ranges=0.0.0.0/0
 
 gcloud compute \
---project=leverheads firewall-rules create ingress-5900 \
+--project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-5900 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \

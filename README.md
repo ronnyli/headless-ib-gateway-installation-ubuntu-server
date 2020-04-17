@@ -13,6 +13,11 @@ This guide was written for anyone that would like to host an instance of the IB 
 ## Set up GCP
 *Let me know if there's any way to improve these instructions*
 1. Create a [GCP account](https://cloud.google.com/)
+1. Create a project called `leverheads`
+	- ![GCP Console New Project](images/tutorial/gcp_console_new_project_click.gif)
+1. Make sure you're allowed to create a GCP instance by going to the [VM Instances](https://console.cloud.google.com/compute/instances) page
+	- You may see a message saying that you need to Enable Billing. Click the blue "Enable Billing" button to continue.
+	- You may see a message saying that you need to Enable the Compute Engine API. Click the blue Enable API button to continue.
 1. Open the Cloud Shell (top-right corner of the screen)
 	- ![Cloud Shell](images/tutorial/activate_cloud_shell.png)
 1. Download some necessary files by copy-pasting the below commands into the terminal
@@ -20,7 +25,9 @@ This guide was written for anyone that would like to host an instance of the IB 
 git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
 cd headless-ib-gateway-installation-ubuntu-server
 ```
-4. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
+6. (Optional but recommended) Modify the `config.ini` file so it has your IB username and password.
+	- Note to Ronny: finish the instructions for this step
+1. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
 	- `sh gcloud_commands.sh`
 	- The script is done when you see: `Done! You can now use TightVNC to connect to your IB Gateway server`
 1. While the gcloud_commands script is running, download [TightVNC Viewer](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip) on your personal computer. This will be how you interact with your IB Gateway server.
