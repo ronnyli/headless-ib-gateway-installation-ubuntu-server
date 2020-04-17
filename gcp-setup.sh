@@ -44,4 +44,11 @@ DISPLAY=:10 /opt/ibc/gatewaystart.sh
 # Restart IB Gateway if it shuts off
 crontab /opt/ibc/crontab.txt
 
+# # Install Python
+apt install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+
+pip install jupyterlab
+
 echo 'Done! You can now use TightVNC to connect to your IB Gateway server'

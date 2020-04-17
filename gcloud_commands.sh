@@ -69,6 +69,15 @@ gcloud compute \
 --rules=tcp:5900 \
 --source-ranges=0.0.0.0/0
 
+gcloud compute \
+--project=leverheads firewall-rules create ingress-8888 \
+--direction=INGRESS \
+--priority=1000 \
+--network=default \
+--action=ALLOW \
+--rules=tcp:8888 \
+--source-ranges=0.0.0.0/0
+
 echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~
