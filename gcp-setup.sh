@@ -51,13 +51,10 @@ python3 get-pip.py
 
 pip install jupyterlab
 
-# Exit out of root user
-exit
-
 jupyter lab --generate-config
 
 mv jupyter_notebook_config.py $PWD_OUTPUT_USER/.jupyter/
 
-jupyter lab --no-browser --port=8888
+jupyter lab --allow-root --no-browser --port=8888
 
 echo 'Done! You can now access IB through JupyterLab'
