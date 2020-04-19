@@ -21,11 +21,11 @@ source ~/.profile
 x11vnc -ncache 10 -ncache_cr -display :10 -forever -shared -logappend /var/log/x11vnc.log -bg -noipv6
 
 # download installation script
-wget https://download2.interactivebrokers.com/installers/ibgateway/latest-standalone/ibgateway-latest-standalone-linux-x64.sh
+wget https://download2.interactivebrokers.com/installers/ibgateway/stable-standalone/ibgateway-stable-standalone-linux-x64.sh
 # make it executable
-chmod a+x ibgateway-latest-standalone-linux-x64.sh
+chmod a+x ibgateway-stable-standalone-linux-x64.sh
 # run it
-echo | sh ibgateway-latest-standalone-linux-x64.sh -c
+echo | sh ibgateway-stable-standalone-linux-x64.sh -c
 
 # get the link to latest IBC from https://github.com/IbcAlpha/IBC/releases
 wget https://github.com/IbcAlpha/IBC/releases/download/3.8.2/IBCLinux-3.8.2.zip
