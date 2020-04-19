@@ -82,6 +82,7 @@ echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a jupyter_notebook_config.py ib-gateway:~
 
 
 gcloud compute ssh \
