@@ -33,10 +33,12 @@ echo "IbPassword=${IB_PASSWORD}" >> config/config.ini
 
 read -p "GCP Instance Name (leave blank unless you have a reason to change it): " GCP_INSTANCE_NAME_USER_INPUT
 GCP_INSTANCE_NAME=${GCP_INSTANCE_NAME_USER_INPUT:-ib-gateway}
+read -p "GCP Zone (leave blank unless you have a reason to change it): " GCP_ZONE_USER_INPUT
+GCP_ZONE=${GCP_ZONE_USER_INPUT:-northamerica-northeast1-a}
 
 gcloud beta compute \
 --project=$LEVERHEADS_PROJECT_ID instances create $GCP_INSTANCE_NAME \
---zone=northamerica-northeast1-a \
+--zone=$GCP_ZONE \
 --machine-type=g1-small \
 --subnet=default \
 --network-tier=PREMIUM \
@@ -73,11 +75,11 @@ gcloud compute \
 --rules=tcp:8888 \
 --source-ranges=0.0.0.0/0
 
-echo | gcloud compute scp --zone northamerica-northeast1-a --recurse config/ $GCP_INSTANCE_NAME:~
-echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh $GCP_INSTANCE_NAME:~
+echo | gcloud compute scp --zone $GCP_ZONE --recurse config/ $GCP_INSTANCE_NAME:~
+echo | gcloud compute scp --zone $GCP_ZONE gcp-setup.sh $GCP_INSTANCE_NAME:~
 
 
 gcloud compute ssh \
---zone northamerica-northeast1-a \
+--zone $GCP_ZONE \
 $GCP_INSTANCE_NAME \
 --command 'sudo sh gcp-setup.sh'
