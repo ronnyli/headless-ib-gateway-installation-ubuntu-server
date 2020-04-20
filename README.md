@@ -1,6 +1,9 @@
 # Interactive Brokers: Headless IB Gateway Installation using IBController on Ubuntu Server
 This guide was written for anyone that would like to host an instance of the IB Gateway API on GCP. This will allow you to use libraries like [node-ib](https://github.com/pilwon/node-ib) and [ib-sdk](https://github.com/triploc/ib-sdk) in a production environment.
 
+## Pre-requisite
+You must already have an Interactive Brokers account with account permissions properly configured. If not, you can follow [this tutorial](IB_account_settings.md)
+
 ## Set up GCP
 *Note: These instructions are for setting up a paper trading account.*
 *Ask Ronny for instructions on how to set up live trading.*
