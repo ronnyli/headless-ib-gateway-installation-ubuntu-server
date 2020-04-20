@@ -25,7 +25,7 @@ cd headless-ib-gateway-installation-ubuntu-server
 	- `sh gcloud_commands.sh`
 1. Provide your username and password when you're prompted:
 	- ![User/Password Prompt](images/tutorial/user_pass_prompt.png)
-1. You'll also be asked to name your GCP instance but you can simply press <kbd>Enter</kbd> to skip this step
+1. You'll also be asked some questions about your GCP instance but you can simply press <kbd>Enter</kbd> to skip these steps
 1. When the script is done you'll see a link that looks like `http://127.0.0.1:8888/?token=alphanum3r1cstr1ng`. Copy and paste it into the URL address but replace `127.0.0.1` with the External IP address of your new GCP instance.
 	1. You can find the External IP address on the [VM Instances](https://console.cloud.google.com/compute/instances) page ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
 1. You can run any Python code that needs to interact with IB in this JupyterLab setup.
