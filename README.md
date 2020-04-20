@@ -1,14 +1,5 @@
 # Interactive Brokers: Headless IB Gateway Installation using IBController on Ubuntu Server
-
 This guide was written for anyone that would like to host an instance of the IB Gateway API on GCP. This will allow you to use libraries like [node-ib](https://github.com/pilwon/node-ib) and [ib-sdk](https://github.com/triploc/ib-sdk) in a production environment.
-
-### Influencers
-- https://github.com/roblav96/headless-ib-gateway-installation-ubuntu-server
-- https://filipmolcik.com/headless-ubuntu-server-for-ib-gatewaytws/
-- https://dimon.ca/how-to-setup-ibcontroller-and-tws-on-headless-ubuntu-to-run-two-accounts/
-- https://github.com/QuantConnect/Lean/blob/master/DockerfileLeanFoundation
-- https://github.com/QuantConnect/Lean/blob/master/Brokerages/InteractiveBrokers/run-ib-controller.sh
-- https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
 ## Set up GCP
 *Note: These instructions are for setting up a paper trading account.*
@@ -27,11 +18,15 @@ This guide was written for anyone that would like to host an instance of the IB 
 git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
 cd headless-ib-gateway-installation-ubuntu-server
 ```
-1. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
+6. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
 	- `sh gcloud_commands.sh`
 1. Provide your username and password when you're prompted:
 	- ![User/Password Prompt](images/tutorial/user_pass_prompt.png)
+1. You'll also be asked to name your GCP instance but you can simply press <kbd>Enter</kbd> to skip this step
 1. When the script is done you'll see a link that looks like `http://127.0.0.1:8888/?token=alphanum3r1cstr1ng`. Copy and paste it into the URL address but replace `127.0.0.1` with the External IP address of your new GCP instance.
 	1. You can find the External IP address on the [VM Instances](https://console.cloud.google.com/compute/instances) page ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
 1. You can run any Python code that needs to interact with IB in this JupyterLab setup.
 	- For example, after installing `ib_insync` and `dataclasses`: ![Jupyterlab](images/tutorial/jupyterlab.png)
+1. For security purposes, it is recommended that you edit your [Firewall Rules](https://console.cloud.google.com/networking/firewalls/list) to only allow access from your IP address.
+	- The two rules that you want to edit are: `ingress-5900` and `ingress-8888`
+	- Ask for help if necessary!

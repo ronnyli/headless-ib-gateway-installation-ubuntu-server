@@ -28,11 +28,14 @@ do
     read -p "Confirm that the IB username/password was entered correctly (type yes or no): " IB_CREDENTIALS
 done
 
-echo "IbLoginId=${IB_USER_NAME}" >> config.ini
-echo "IbPassword=${IB_PASSWORD}" >> config.ini
+echo "IbLoginId=${IB_USER_NAME}" >> config/config.ini
+echo "IbPassword=${IB_PASSWORD}" >> config/config.ini
+
+read -p "GCP Instance Name (leave blank unless you have a reason to change it): " GCP_INSTANCE_NAME_USER_INPUT
+GCP_INSTANCE_NAME=${GCP_INSTANCE_NAME_USER_INPUT:-ib-gateway}
 
 gcloud beta compute \
---project=$LEVERHEADS_PROJECT_ID instances create ib-gateway \
+--project=$LEVERHEADS_PROJECT_ID instances create $GCP_INSTANCE_NAME \
 --zone=northamerica-northeast1-a \
 --machine-type=g1-small \
 --subnet=default \
@@ -44,31 +47,13 @@ gcloud beta compute \
 --image-project=ubuntu-os-cloud \
 --boot-disk-size=10GB \
 --boot-disk-type=pd-standard \
---boot-disk-device-name=ib-gateway \
+--boot-disk-device-name=$GCP_INSTANCE_NAME \
 --no-shielded-secure-boot \
 --shielded-vtpm \
 --shielded-integrity-monitoring \
 --reservation-affinity=any
 
 sleep 1m
-
-gcloud compute \
---project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4001 \
---direction=INGRESS \
---priority=1000 \
---network=default \
---action=ALLOW \
---rules=tcp:4001 \
---source-ranges=0.0.0.0/0
-
-gcloud compute \
---project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4002 \
---direction=INGRESS \
---priority=1000 \
---network=default \
---action=ALLOW \
---rules=tcp:4002 \
---source-ranges=0.0.0.0/0
 
 gcloud compute \
 --project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-5900 \
@@ -88,14 +73,11 @@ gcloud compute \
 --rules=tcp:8888 \
 --source-ranges=0.0.0.0/0
 
-echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
-echo | gcloud compute scp --zone northamerica-northeast1-a jupyter_notebook_config.py ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a --recurse config/ $GCP_INSTANCE_NAME:~
+echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh $GCP_INSTANCE_NAME:~
 
 
 gcloud compute ssh \
 --zone northamerica-northeast1-a \
-ib-gateway \
+$GCP_INSTANCE_NAME \
 --command 'sudo sh gcp-setup.sh'

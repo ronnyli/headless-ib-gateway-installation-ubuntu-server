@@ -6,7 +6,8 @@
 # Step 1: Set up IB Gateway server
 #####
 # Install dependencies
-PWD_OUTPUT_USER=$(pwd)
+cd config
+CONFIG_DIR=$(pwd)
 cd /root/
 apt update && apt install -y unzip xvfb x11vnc
 echo | Xvfb :10 -ac -screen 0 1024x768x24 &
@@ -32,10 +33,10 @@ wget https://github.com/IbcAlpha/IBC/releases/download/3.8.2/IBCLinux-3.8.2.zip
 unzip ./IBCLinux-3.8.2.zip -d /opt/ibc
 
 # Copy configuration files
-mv $PWD_OUTPUT_USER/jts.ini /root/Jts/
+mv $CONFIG_DIR/jts.ini /root/Jts/
 mkdir /root/ibc
-mv $PWD_OUTPUT_USER/config.ini /root/ibc
-mv $PWD_OUTPUT_USER/gatewaystart.sh /opt/ibc/
+mv $CONFIG_DIR/config.ini /root/ibc
+mv $CONFIG_DIR/gatewaystart.sh /opt/ibc/
 
 # Start IB Gateway and send to TightVNC
 chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh
@@ -51,6 +52,6 @@ python3 get-pip.py
 
 pip install jupyterlab
 
-jupyter lab --allow-root --no-browser --config=$PWD_OUTPUT_USER/jupyter_notebook_config.py --port=8888
+jupyter lab --allow-root --no-browser --config=$CONFIG_DIR/jupyter_notebook_config.py --port=8888
 
 echo 'Done! You can now access IB through JupyterLab'
