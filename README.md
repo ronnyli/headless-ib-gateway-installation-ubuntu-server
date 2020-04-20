@@ -35,3 +35,6 @@ cd headless-ib-gateway-installation-ubuntu-server
 	1. You can find the External IP address on the [VM Instances](https://console.cloud.google.com/compute/instances) page ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
 1. You can run any Python code that needs to interact with IB in this JupyterLab setup.
 	- For example, after installing `ib_insync` and `dataclasses`: ![Jupyterlab](images/tutorial/jupyterlab.png)
+1. For security purposes, it is recommended that you edit your [Firewall Rules](https://console.cloud.google.com/networking/firewalls/list) to only allow access from your IP address.
+	- The two rules that you want to edit are: `ingress-5900` and `ingress-8888`
+	- Ask for help if necessary!
