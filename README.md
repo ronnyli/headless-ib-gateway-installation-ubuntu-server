@@ -11,7 +11,9 @@ This guide was written for anyone that would like to host an instance of the IB 
 - https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
 ## Set up GCP
-*Let me know if there's any way to improve these instructions*
+*Note: These instructions are for setting up a paper trading account.*
+*Ask Ronny for instructions on how to set up live trading.*
+*Also, if you have 2FA set up on your live account, you'll need the IBKR mobile app*
 1. Create a [GCP account](https://cloud.google.com/)
 1. Create a project called `leverheads`
 	- ![GCP Console New Project](images/tutorial/gcp_console_new_project_click.gif)
