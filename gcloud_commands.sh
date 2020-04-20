@@ -8,7 +8,6 @@ else
     git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
     cd ~/headless-ib-gateway-installation-ubuntu-server
 fi
-# EDIT config.ini with your username/password (search for <YOUR_INPUT_HERE>)
 
 LEVERHEADS_PROJECT_FOUND=$(gcloud projects list --filter leverheads | wc -l)
 if [ $LEVERHEADS_PROJECT_FOUND -gt 1 ]
@@ -20,6 +19,17 @@ else
     exit 1
 fi
 LEVERHEADS_PROJECT_ID=$(gcloud projects list --filter leverheads | tail -n 1 | cut -d ' ' -f1)
+
+while [ "${IB_CREDENTIALS::1}" != "y" ]
+do
+    read -p "Type in your IB user name, then press Enter: " IB_USER_NAME
+    read -s -p "Type in your IB password, then press Enter: " IB_PASSWORD
+    echo
+    read -p "Confirm that the IB username/password was entered correctly (type yes or no): " IB_CREDENTIALS
+done
+
+echo "IbLoginId=${IB_USER_NAME}" >> config.ini
+echo "IbPassword=${IB_PASSWORD}" >> config.ini
 
 gcloud beta compute \
 --project=$LEVERHEADS_PROJECT_ID instances create ib-gateway \
@@ -69,10 +79,20 @@ gcloud compute \
 --rules=tcp:5900 \
 --source-ranges=0.0.0.0/0
 
+gcloud compute \
+--project=leverheads firewall-rules create ingress-8888 \
+--direction=INGRESS \
+--priority=1000 \
+--network=default \
+--action=ALLOW \
+--rules=tcp:8888 \
+--source-ranges=0.0.0.0/0
+
 echo | gcloud compute scp --zone northamerica-northeast1-a jts.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gatewaystart.sh ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a config.ini ib-gateway:~
 echo | gcloud compute scp --zone northamerica-northeast1-a gcp-setup.sh ib-gateway:~
+echo | gcloud compute scp --zone northamerica-northeast1-a jupyter_notebook_config.py ib-gateway:~
 
 
 gcloud compute ssh \

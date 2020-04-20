@@ -11,7 +11,9 @@ This guide was written for anyone that would like to host an instance of the IB 
 - https://github.com/ib-controller/ib-controller/blob/master/userguide.md
 
 ## Set up GCP
-*Let me know if there's any way to improve these instructions*
+*Note: These instructions are for setting up a paper trading account.*
+*Ask Ronny for instructions on how to set up live trading.*
+*Also, if you have 2FA set up on your live account, you'll need the IBKR mobile app*
 1. Create a [GCP account](https://cloud.google.com/)
 1. Create a project called `leverheads`
 	- ![GCP Console New Project](images/tutorial/gcp_console_new_project_click.gif)
@@ -25,27 +27,11 @@ This guide was written for anyone that would like to host an instance of the IB 
 git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
 cd headless-ib-gateway-installation-ubuntu-server
 ```
-6. (Optional but recommended) Modify the `config.ini` file so it has your IB username and password.
-	- Note to Ronny: finish the instructions for this step
 1. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
 	- `sh gcloud_commands.sh`
-	- The script is done when you see: `Done! You can now use TightVNC to connect to your IB Gateway server`
-1. While the gcloud_commands script is running, download [TightVNC Viewer](http://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip) on your personal computer. This will be how you interact with your IB Gateway server.
-1. Unzip tvnjiewer and launch the `tightvnc-jviewer` Jar file either using the shell command below or by opening with Java
-	- `java -jar tightvnc-jviewer.jar`
-	- Alternatively, open the file with java (you may need to install Java, which I think you can find [here](https://java.com/en/download/help/download_options.xml)):
-
-![Open with Java](images/tutorial/tightvnc_jviewer_open_with.png)
-![Open with Java](images/tutorial/tightvnc_jviewer_open_with_java.png)
-
-7. When asked to fill out the "Remote Host" field, use the External IP address that you can see next to the `ib-gateway` instance in GCP
-	1. Go to the [GCP Instances](https://console.cloud.google.com/compute/instances) page
-	1. Copy the External IP address ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
-	1. The Remote Host value is `<PASTE EXTERNAL IP ADDRESS>::5900`
-		- ![TightVNC Remote Host](images/tutorial/tightvnc_remote_host.png)
-1. You should see a log-in window for Interactive Brokers!
-
-![IB Gateway Log In](images/tutorial/interactive_broker_login.png)
-
-## Create an Interactive Brokers Account
-*Instructions TBD*
+1. Provide your username and password when you're prompted:
+	- ![User/Password Prompt](images/tutorial/user_pass_prompt.png)
+1. When the script is done you'll see a link that looks like `http://127.0.0.1:8888/?token=alphanum3r1cstr1ng`. Copy and paste it into the URL address but replace `127.0.0.1` with the External IP address of your new GCP instance.
+	1. You can find the External IP address on the [VM Instances](https://console.cloud.google.com/compute/instances) page ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
+1. You can run any Python code that needs to interact with IB in this JupyterLab setup.
+	- For example, after installing `ib_insync` and `dataclasses`: ![Jupyterlab](images/tutorial/jupyterlab.png)
