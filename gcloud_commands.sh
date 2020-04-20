@@ -53,24 +53,6 @@ gcloud beta compute \
 sleep 1m
 
 gcloud compute \
---project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4001 \
---direction=INGRESS \
---priority=1000 \
---network=default \
---action=ALLOW \
---rules=tcp:4001 \
---source-ranges=0.0.0.0/0
-
-gcloud compute \
---project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-4002 \
---direction=INGRESS \
---priority=1000 \
---network=default \
---action=ALLOW \
---rules=tcp:4002 \
---source-ranges=0.0.0.0/0
-
-gcloud compute \
 --project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-5900 \
 --direction=INGRESS \
 --priority=1000 \
