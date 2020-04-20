@@ -25,16 +25,11 @@ This guide was written for anyone that would like to host an instance of the IB 
 git clone https://github.com/ronnyli/headless-ib-gateway-installation-ubuntu-server.git
 cd headless-ib-gateway-installation-ubuntu-server
 ```
-6. (Optional but recommended) Modify the `config.ini` file so it has your IB username and password.
-	- Note to Ronny: finish the instructions for this step
 1. Run the `gcloud_commands.sh` script by copy-pasting the below command into the terminal
 	- `sh gcloud_commands.sh`
-	- The script is done when you see: `Done! You can now access IB through JupyterLab`
-1. You'll see a link that looks like `http://localhost:8888/?token=alphanum3r1cstr1ng`. Copy it but replace `localhost` with the External IP address of your new GCP instance.
-	1. ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
+1. Provide your username and password when you're prompted:
+	- ![User/Password Prompt](images/tutorial/user_pass_prompt.png)
+1. When the script is done you'll see a link that looks like `http://127.0.0.1:8888/?token=alphanum3r1cstr1ng`. Copy and paste it into the URL address but replace `127.0.0.1` with the External IP address of your new GCP instance.
+	1. You can find the External IP address on the [VM Instances](https://console.cloud.google.com/compute/instances) page ![External IP Address on GCP](images/tutorial/ib_gateway_external_ip_address.png)
 1. You can run any Python code that needs to interact with IB in this JupyterLab setup.
-
-![IB Gateway Log In](images/tutorial/interactive_broker_login.png)
-
-## Create an Interactive Brokers Account
-*Instructions TBD*
+	- For example, after installing `ib_insync` and `dataclasses`: ![Jupyterlab](images/tutorial/jupyterlab.png)
