@@ -28,8 +28,8 @@ do
     read -p "Confirm that the IB username/password was entered correctly (type yes or no): " IB_CREDENTIALS
 done
 
-echo "IbLoginId=${IB_USER_NAME}" >> config.ini
-echo "IbPassword=${IB_PASSWORD}" >> config.ini
+echo "IbLoginId=${IB_USER_NAME}" >> config/config.ini
+echo "IbPassword=${IB_PASSWORD}" >> config/config.ini
 
 read -p "GCP Instance Name (leave blank unless you have a reason to change it): " GCP_INSTANCE_NAME_USER_INPUT
 GCP_INSTANCE_NAME=${GCP_INSTANCE_NAME_USER_INPUT:-ib-gateway}
