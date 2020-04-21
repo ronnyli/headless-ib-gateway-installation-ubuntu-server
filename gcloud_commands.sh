@@ -67,7 +67,7 @@ gcloud compute \
 --source-ranges=0.0.0.0/0
 
 gcloud compute \
---project=leverheads firewall-rules create ingress-8888 \
+--project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-8888 \
 --direction=INGRESS \
 --priority=1000 \
 --network=default \
