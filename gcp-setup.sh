@@ -9,7 +9,7 @@
 cd config
 CONFIG_DIR=$(pwd)
 cd /root/
-apt update && apt install -y unzip xvfb x11vnc
+apt-get update && apt-get install -y unzip xvfb x11vnc
 echo | Xvfb :10 -ac -screen 0 1024x768x24 &
 
 # Make sure DISPLAY=:10 is a permanent environment variable
@@ -46,7 +46,7 @@ DISPLAY=:10 /opt/ibc/gatewaystart.sh
 crontab /opt/ibc/crontab.txt
 
 # # Install Python
-apt install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
+apt-get install -y python3 python3-dev python3-venv gcc  # gcc is for bt dependency
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 
