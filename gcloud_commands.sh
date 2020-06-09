@@ -63,7 +63,7 @@ gcloud compute \
 --network=default \
 --action=ALLOW \
 --rules=tcp:5900 \
---source-ranges=0.0.0.0/0
+--source-ranges=23.233.109.246
 
 gcloud compute \
 --project=$LEVERHEADS_PROJECT_ID firewall-rules create ingress-8888 \
@@ -72,7 +72,7 @@ gcloud compute \
 --network=default \
 --action=ALLOW \
 --rules=tcp:8888 \
---source-ranges=0.0.0.0/0
+--source-ranges=23.233.109.246
 
 echo | gcloud compute scp --zone $GCP_ZONE --recurse config/ $GCP_INSTANCE_NAME:~
 echo | gcloud compute scp --zone $GCP_ZONE gcp-setup.sh $GCP_INSTANCE_NAME:~
